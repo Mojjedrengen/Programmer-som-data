@@ -110,3 +110,15 @@ let rec simplify =
 
 let ae4 = Mul(CastI 0, Var "b")
 let ae4s = simplify ae4
+
+let rec symdiff var =
+    function
+    | CastI(_) -> CastI 0
+    | Var(e) when e = var -> CastI 1
+    | Var(_) -> CastI 0
+    | Add(e1, e2) -> Add(symdiff var e1, symdiff var e2)
+    | Sub(e1, e2) -> Sub(symdiff var e1, symdiff var e2)
+    | Mul(e1, e2) ->
+        let de1 = symdiff var e1
+        let de2 = symdiff var e2
+        Add(Mul(de1, e2), Mul(e1, de2))
