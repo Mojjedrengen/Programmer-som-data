@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.fs" />
+    <Compile Include="Intro1.fs" />
+    <Compile Include="Intro2.fs" />
+    <Compile Include="Appendix.fs" />
+  </ItemGroup>
+
+</Project>
