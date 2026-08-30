@@ -237,9 +237,15 @@ let rec freevars e : string list =
     match e with
     | CstI i -> []
     | Var x  -> [x]
-    | Let(x, erhs, ebody) -> 
-          union (freevars erhs, minus (freevars ebody, [x]))
-    | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
+    | Let(bindings, ebody) ->
+        let rec free bs (bound : string list) =
+            match bs with
+            | [] -> []
+            | (x, erhs) :: rest ->
+                let currentlyfree = minus (freevars erhs, bound)
+                union (currentlyfree, free rest (x :: bound))
+        union (free bindings [], minus (freevars ebody, List.map fst bindings))
+    | Prim(ope, e1, e2) -> union (freevars e1, freevars e2)
 
 (* Alternative definition of closed *)
 
