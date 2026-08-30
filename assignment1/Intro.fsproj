@@ -16,6 +16,7 @@
     <Content Include="Intcomp\fac.ps" />
     <Content Include="Intcomp\prog.ps" />
     <Content Include="Intcomp\sierpinski.eps" />
+    <Compile Include="Intcomp\Machine.cs" />
   </ItemGroup>
 
 </Project>
