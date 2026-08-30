@@ -1,0 +1,18 @@
+% File Intcomp/prog.ps - show a text and a rectangle 
+
+% On Linux and MacOS, when Ghostscript and display are available:
+%   gs prog.ps
+% will compute and show the result in a separate window. 
+
+% On MacOS 15 (Sequoia) if display is not configured:
+%   gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -sOutputFile=prog.pdf prog.ps
+% and then open the prog.pdf file with a PDF viewer.
+
+/Times-Roman findfont 25 scalefont setfont
+100 500 moveto
+(Hello, Postscript!!) show
+newpath
+100 100 moveto 
+300 100 lineto 300 250 lineto
+100 250 lineto 100 100 lineto stroke
+showpage

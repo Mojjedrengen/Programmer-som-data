@@ -1,0 +1,29 @@
+% File Intcomp/fac.ps - compute and show factorial numbers
+
+% On Linux and MacOS, when Ghostscript and display are available:
+%   gs fac.ps
+% will compute and show the result in a separate window. 
+
+% On MacOS 15 (Sequoia) if display is not configured:
+%   gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -sOutputFile=fac.pdf fac.ps
+% and then open the fac.pdf file with a PDF viewer.
+
+/str 20 string def
+/prTop { str cvs show } def
+/Times-Roman findfont 25 scalefont setfont
+100 500 moveto
+(Calculate 4 5 add 8 mul = ) show
+4 5 add 8 mul prTop
+100 400 moveto
+(Calculate fac n for n in [1..12] \n) show
+/fac { dup 0 eq
+       { pop 1 }
+       { dup 1 sub fac mul }
+       ifelse } def
+0 1 12 {dup 100 exch 25 mul neg 380 add moveto
+        (fac ) show
+        dup prTop
+        ( = ) show
+        fac
+        prTop} for
+showpage

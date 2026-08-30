@@ -10,6 +10,12 @@
     <Compile Include="Intro1.fs" />
     <Compile Include="Intro2.fs" />
     <Compile Include="Appendix.fs" />
+    <Compile Include="Intcomp\Intcomp1.fs" />
+    <Content Include="Intcomp\Machine.java" />
+    <Content Include="Intcomp\README.md" />
+    <Content Include="Intcomp\fac.ps" />
+    <Content Include="Intcomp\prog.ps" />
+    <Content Include="Intcomp\sierpinski.eps" />
   </ItemGroup>
 
 </Project>
