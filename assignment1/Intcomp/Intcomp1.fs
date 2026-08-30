@@ -233,6 +233,20 @@ let rec minus (xs, ys) =
 
 (* Find all variables that occur free in expression e *)
 
+(*
+Exercise 2.2
+Revise freevars to work for the newly updated expr language
+
+freevars returns the free variables of an expression
+
+the updated version now takes into account sequential let bindings
+
+Via a helper recursive function, the let match recursively unions
+all free variables taking into account all the bound variables before the current erhs
+
+the names bound by the let are excluded from the ebody free variables as well.
+*)
+
 let rec freevars e : string list =
     match e with
     | CstI i -> []
