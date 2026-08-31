@@ -234,6 +234,8 @@ let rec minus (xs, ys) =
 (* Find all variables that occur free in expression e *)
 
 (*
+NOTE: Modified
+
 Exercise 2.2
 Revise freevars to work for the newly updated expr language
 
@@ -287,7 +289,9 @@ let rec getindex vs x =
 
 (* Compiling from expr to texpr *)
 
-(*Exercise 2.3
+(*
+NOTE: Modified
+Exercise 2.3
 
 Updated tcomp to work with the update expr language
 
