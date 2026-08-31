@@ -287,13 +287,32 @@ let rec getindex vs x =
 
 (* Compiling from expr to texpr *)
 
+(*Exercise 2.3
+
+Updated tcomp to work with the update expr language
+
+uses a recursive accumulator helper function to stack
+all variables in the list of bindings into the environment
+to compile each right hand side against the environment built so far
+and at the end to run the ebody against the accumulated environment.
+
+instead of a list tcomp creates nested TLet's
+
+
+*)
 let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let(x, erhs, ebody) -> 
-      let cenv1 = x :: cenv 
-      TLet(tcomp erhs cenv, tcomp ebody cenv1)
+    | Let(bindings, ebody) -> 
+      
+      let rec helper bs cenvi =
+        match bs with
+        | [] -> tcomp ebody cenvi
+        | (x, erhs) :: rest ->
+            TLet(tcomp erhs cenvi, helper rest (x :: cenvi))
+      helper bindings cenv
+      
     | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv);;
 
 (* Evaluation of target expressions with variable indexes.  The
