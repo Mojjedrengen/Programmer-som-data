@@ -7,6 +7,33 @@ Touched files:
 - Intro/Intro2.fs (1.1, 1.2)
 - Intcomp\Intcomp1.fs (2.1, 2.2, 2.3)
 
+- 1.1
+
+Added an extra pattern maching inside to mach on the operator inside of prim 
+Also added the if statement evaluation
+follwing both 1.1 (i) and (iii)
+
+Added some test cases
+Following 1.1 (ii)
+
+- 1.2
+
+Made the aexpr which is like the expr that was give.
+But the prim have ben pulled out to there own enum variables. 
+These are add, mul, sub
+following 1.2 (i)
+
+Made test expression following 1.2 (ii)
+
+Made the fmt function which converts the aexpr to a string
+following 1.2 (iii)
+
+Made the simplify function following 1.2 (iv) which simplify the given aexpr
+
+Made the symbolic diffrent function, symdiff. 
+This takes a var, as a string, and then diffrentiates the function based on it. 
+Following 1.2 (v)
+
 - 2.1
 
 - 2.2
