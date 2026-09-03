@@ -24,4 +24,4 @@ There is two images just in case, for dark mode or not.
 The images shows the above derivation as a tree
 
 ![Dark mode version of the tree](3.4.png)
-![Light mode version of the tree](3.4.light)
+![Light mode version of the tree](3.4.light.png)
