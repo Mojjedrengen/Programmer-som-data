@@ -448,6 +448,38 @@ let intsToFile (inss : int list) (fname : string) =
     let text = String.concat " " (List.map string inss)
     System.IO.File.WriteAllText(fname, text);;
 
+(* Takes Jonhnys stack instruction(s) and converts them to their respective Bytecode representation
+SCstI and var i adds "instructionvalue" ; i to the list, which the machine then reads as, arh we have 0, now I will read the next as the constant and not a operation. Same with var; value 1 tells the same story.
+Machines reads list from left to right which we will also have to account for in assemble function. So yeah, prepares the machine for what is coming so that it cant be misinterpereted as a instruction.
+all the remaining just send their instruction values to the list.
 
+*)
+
+let sinstrToInt (sins : sinstr) : int list =
+    match sins with
+    | SCstI i -> [0; i]
+    | SVar i -> [1; i]
+    | SAdd -> [2]
+    | SSub -> [3]
+    | SMul -> [4]
+    | SPop -> [5]
+    | SSwap -> [6]
+
+
+(*Eats sInstruction list, runs through it with helper function with accumulator
+since adding from behind is expensive we have to account for having to reverse the list at the end.sinList
+if we had 0 i 0 i 2
+We would get 2 @ 0 i 0 i when appending the last int list returned from sinstr, which would give us the following when reversed
+i 0 i 0 2 which the machine would have less of a great time with.
+Thats why we also have to reverse the returned int list from sinstr before appending, so when list is reversed the machine gets warned about the next "value"
+not being an instruction.
+*)
+let assemble (sinList : sinstr List) : int list =
+    let rec assHelper lst acc =
+        match lst with
+        | [] -> List.rev acc
+        | sin :: remSins ->
+            assHelper remSins ((List.rev (sinstrToInt sin)) @ acc)
+    assHelper sinList []
 
 (* -----------------------------------------------------------------  *)
