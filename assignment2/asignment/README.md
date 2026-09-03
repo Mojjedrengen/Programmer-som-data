@@ -22,5 +22,6 @@ Bellow is the image of the tree.
 One is with white text, the other with black text.
 There is two images just in case, for dark mode or not.
 The images shows the above derivation as a tree
-[![3.4.png]]
-[![3.4.light]]
+
+![Dark mode version of the tree](3.4.png)
+![Light mode version of the tree](3.4.light)
