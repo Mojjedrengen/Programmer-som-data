@@ -3,7 +3,7 @@ NOTE: Add the files that edited into this folder when we need submit
 ## 3.3
 
 Given the string:
-`let z = (17) in z + 2 * 3 end EOF`
+`let z = (17) in z + 2 * 3 end EOF`.
 The rightmost derivation, following the gramme rules (A-I) is:
 
 1. Expr EOF (A)
