@@ -1,5 +1,17 @@
 NOTE: Add the files that edited into this folder when we need submit
 
+## 3.2
+
+Regular expression for recognizing strings consisting of
+a and b where two a’s are always separated by at least one b
+
+(b|ab)*(a|ϵ)
+
+Corresponding NFA and DFA:
+
+![NFA](NFA.png)
+![DFA](DFA.png)
+
 ## 3.3
 
 Given the string:
