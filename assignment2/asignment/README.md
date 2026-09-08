@@ -28,7 +28,7 @@ The rightmost derivation, following the gramme rules (A-I) is:
 8. LET NAME EQ LPAR Expr RPAR IN NAME PLUS CSTINT TIMES CSTINT END EOF (E)
 9. LET NAME EQ LPAR CSTINT RPAR IN NAME PLUS CSTINT TIMES CSTINT END EOF (C)
 
-## 3.3
+## 3.4
 
 Bellow is the image of the tree.
 One is with white text, the other with black text.
