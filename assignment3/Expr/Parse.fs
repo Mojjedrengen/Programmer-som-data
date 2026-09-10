@@ -19,6 +19,13 @@ let fromString (str : string) : expr =
       | exn -> let pos = lexbuf.EndPos 
                failwithf "%s near line %d, column %d\n" 
                   (exn.Message) (pos.Line+1) pos.Column
+
+// First string to expr by fromstring and then expr to sinstrlist
+// FromString handles expr to string, the scomp in Expr handles from expr to sinstr list
+//(fun a -> Expr.scomp a [])
+//: Expr.sinstr list
+let compString (s : string) : sinstr list  =
+  s |> fromString |> (fun a -> Expr.scomp a [])
              
 (* Parsing from a text file *)
 
