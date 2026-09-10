@@ -32,5 +32,6 @@ run power8;;
 ```
 
 ```fsharp
+let e1 = fromString "let sum m = if m = 11 then n else let powaux n = let pow x = if n = 0 then 1 else x * pow (n - 1) in pow 8 end in sum (m + 1) + powaux n end in 0 end";;
 
 ```
