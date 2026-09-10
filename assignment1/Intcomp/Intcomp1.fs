@@ -87,6 +87,9 @@ let run e = eval e [];;
 let res = List.map run [e1;e2;e3;e4;e5;e7]  (* e6 has free variables *)
 
 
+    
+
+
 (* ---------------------------------------------------------------------- *)
 
 (* Closedness *)
@@ -399,7 +402,35 @@ type sinstr =
   | SMul                                (* pop args, push product *)
   | SPop                                (* pop value/unbind var   *)
   | SSwap;;                             (* exchange top and next  *)
- 
+
+
+
+let rec sinstrToInt (sin : list<sinstr>) : list<int> =
+    match sin with
+    | [] -> []
+    | SCstI i :: rest -> 0 :: i :: sinstrToInt rest                  
+    | SVar i :: rest -> 1 :: i :: sinstrToInt rest   
+    | SAdd :: rest -> 2 :: sinstrToInt rest   
+    | SSub :: rest -> 3 :: sinstrToInt rest   
+    | SMul :: rest -> 4 :: sinstrToInt rest   
+    | SPop :: rest -> 5 :: sinstrToInt rest   
+    | SSwap :: rest -> 6 :: sinstrToInt rest   
+
+
+let rec sinstrToInt2 (sin : sinstr) : list<int> =
+        match sin with
+        | SCstI i -> [0; i]            
+        | SVar i -> [1; i]   
+        | SAdd -> [2]
+        | SSub -> [3]
+        | SMul -> [4]
+        | SPop  -> [5]   
+        | SSwap -> [6]
+
+
+let helper (ls: list<sinstr>) =
+    List.foldBack (fun inst acc -> sinstrToInt2 inst @ acc) ls []
+
 let rec seval (inss : sinstr list) (stack : int list) =
     match (inss, stack) with
     | ([], v :: _) -> v
@@ -449,5 +480,8 @@ let intsToFile (inss : int list) (fname : string) =
     System.IO.File.WriteAllText(fname, text);;
 
 
+
+
+    
 
 (* -----------------------------------------------------------------  *)
