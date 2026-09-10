@@ -13,6 +13,7 @@
   
   <ItemGroup>
     <Compile Include="Absyn.fs" />
+    <Compile Include="Fun.fs" />
     <Compile Include="FunPar.fs" />        
     <Compile Include="FunLex.fs" />
     <Compile Include="Parse.fs" />
