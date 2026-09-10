@@ -1,0 +1,82 @@
+/* expr/javacc/Exprtree.jjt in JavaCC tree-builder format
+   Build with 
+
+	jjtree Exprtree.jjt
+	javacc Exprtree.jj
+	javac *.java
+
+   Run as
+        
+        java Expr 
+
+   Enter e.g. 4 * 3 followed <ctrl-D> on Unix or <ctrl-Z> on Windows.
+   A rather crude abstract syntax tree will be printed in response.
+ */
+
+options {
+LOOKAHEAD=1;
+}
+
+PARSER_BEGIN(Expr)
+
+public class Expr {
+  public static void main(String args[]) throws ParseException {
+    Expr parser = new Expr(System.in);
+    System.out.print("Enter Expression: ");
+    SimpleNode tree = parser.Main();
+    tree.dump("");
+  }
+}
+PARSER_END(Expr)
+
+SKIP :
+{
+ 	" "
+|	"\r"
+|	"\n"
+|	"\t"
+}
+
+
+TOKEN : /* operators */
+{ < PLUS  : "+" >
+| < MINUS : "-" >
+| < TIMES : "*" >
+| < LPAR  : "(" >
+| < RPAR  : ")" >
+}
+
+TOKEN : /* constants and variables */
+{ < CSTINT  : ( <DIGIT> )+ >
+| < #DIGIT  : ["0" - "9"] >
+| < NAME    : <LETTER> ( <DIGIT> | <LETTER> )* >
+| < #LETTER : ["a"-"z", "A"-"Z"] >
+}
+
+SimpleNode Main() : 
+{}
+{
+  Expr() <EOF> { return jjtThis; }
+	
+}
+
+void Expr() :
+{}
+{
+  Term() ( ( <PLUS> | <MINUS> ) Term() )*
+}
+
+void Term() :
+{ }
+{
+  Factor() ( <TIMES> Factor() )*
+}
+
+void Factor() :
+{ }
+{
+   <NAME>
+ | <CSTINT> 
+ | <MINUS> <CSTINT>
+ | <LPAR> Expr() <RPAR>
+}

@@ -1,0 +1,79 @@
+/* Expr/javacc/Exprparlex.jj in JavaCC format.
+
+   Build with 
+
+	javacc Exprparlex.jj
+	javac *.java
+
+   Run as
+        
+        java Expr
+
+   Enter e.g. 4 * 3 followed by newline and <ctrl-D> on Linux or MacOS,
+   or by <ctrl-Z> on Windows.
+   You get a response from the program only if you make a syntax error.
+*/
+
+PARSER_BEGIN(Expr)
+public class Expr {
+  public static void main(String args[]) throws ParseException {
+    Expr parser = new Expr(System.in);
+    System.out.print("Enter Expression: ");
+    parser.Main();
+  }
+}
+PARSER_END(Expr)
+
+SKIP :
+{ " "
+| "\r"
+| "\n"
+| "\t"
+}
+
+TOKEN : 
+{ < PLUS  : "+" >
+| < MINUS : "-" >
+| < TIMES : "*" >
+}
+
+TOKEN : 
+{ < LET   : "let" >
+| < IN    : "in" >
+| < END   : "end" >
+}
+
+TOKEN : /* constants and variables */
+{ < CSTINT  : ( <DIGIT> )+ >
+| < #DIGIT  : ["0" - "9"] >
+| < NAME    : <LETTER> ( <DIGIT> | <LETTER> )* >
+| < #LETTER : ["a"-"z", "A"-"Z"] >
+}
+
+void Main() :
+{}
+{
+  Expr() <EOF>
+}
+
+void Expr() :
+{}
+{
+  Term() ( ( <PLUS> | <MINUS> ) Term() )*
+}
+
+void Term() :
+{ }
+{
+  Factor() ( <TIMES> Factor() )*
+}
+
+void Factor() :
+{ }
+{
+   <NAME>
+ | <CSTINT> 
+ | <MINUS> <CSTINT>
+ | "(" Expr() ")"
+ | <LET> <NAME> "=" Expr() <IN> Expr() <END>
+}
