@@ -137,3 +137,61 @@ end
 
 run e4;;
 ```
+
+
+### 4.3
+To allow functions to take more than one argument, the abstract syntax in Absyn.fs has to be modified.
+This included modifications to both Letfun as well as Call to include lists of their corresponding args and parameters.
+
+Then modifications to the eval interpreter had to be made to work with our new abstract syntax.
+
+This meant the closure, holding the last of function parameters, had to be changed to include a list of parameters now as well.
+
+Furthermore, the cases in the eval interpreter of Letfun and Call had to be modified to ensure each parameter
+in the closure got assigned to its corresponding arg value.
+```fsharp
+| Letfun of string * string * expr * expr    (* (f, x, fBody, letBody) *)
+| Call of expr * expr
+
+->
+
+| Letfun of string * list<string> * expr * expr    (* (f, [x...], fBody, letBody) *)
+| Call of expr * list<expr>
+```
+
+### 4.4
+
+For our newly changed abstract syntax and interpreter, the parser specification had to be changed accordingly.
+
+First we had to ensure that the Appexpr nonterminal could produce lists as the second value of Call. 
+This was done with the introduction of a new nonterminal and type of "Args" which was a
+list of expressions as follows:
+```fsharp
+%type <Absyn.expr list> Args
+
+Args:
+    AtExpr                              { [$1]}
+  | AtExpr Args                       { $1 :: $2}
+```
+meaning an AppExpr could now create lists of N length via the recursion of Args.
+
+To further adopt our new abstract syntax and interpreter, we had to change the AtExpr Nonterminal as well.
+
+```fsharp
+%type <string list> Params
+
+AtExpr:
+....
+| LET NAME Params EQ Expr IN Expr END   { Letfun($2, $3, $5, $7) }
+....
+
+Params:
+   NAME                               {[$1]}
+  | NAME Params                       {$1 :: $2}
+```
+This was to allow a list of parameters in the form of strings as opposed to earlier where
+Letfun only allowed a single NAME instance. So to make this work, we made what was essentially a copy
+of the Args type/NonTerminal.
+
+A quick note on the change, before the modification, we could still parse something like f a b, problem
+was the nesting of Call, which our interpreter cannot read, so we changed it to a single flat Call with a list instead.
