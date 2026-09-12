@@ -113,6 +113,29 @@ run (fromString "let f x = x + 7 in f 2 end");;
 ```
 
 ```fsharp
+run (fromString "let sum n = if n < 0 then 0 else n + (sum (n - 1)) in sum 1000 end");;
+```
+
+```fsharp
+run (fromString "let powerof n = if n < 1 then 1 else 3 * powerof (n-1) in powerof 8 end");;
+```
+
+```fsharp
+run (fromString "let powerofel n = 
+        if 11 < n then 0 else (powerofel (n+1)) + 
+                (let powerof e = if e < 1 then 1 else 3 * powerof (e-1) in powerof n end) 
+                        in (1 + powerofel 1) end");;
+```
+
+```fsharp
+run (fromString "let werido n = 
+        if 10 < n then 0 else (werido (n+1)) + 
+                (let powerof e = if e < 1 then 1 else n * powerof (e-1) in powerof 8 end) 
+                        in (1 + werido 2) end");;
+```
+
+
+```fsharp
 #q;;
 ```
 
