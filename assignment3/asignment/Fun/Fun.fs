@@ -78,7 +78,7 @@ let rec eval (e : expr) (env : value env) : int =
 let run e = eval e [];;
 
 (* Examples in abstract syntax *)
-
+(*
 let ex1 = Letfun("f1", "x", Prim("+", Var "x", CstI 1), 
                  Call(Var "f1", CstI 12));;
 
@@ -121,4 +121,5 @@ let ex5 =
                           Call(Var "fib", Prim("-", Var "n", CstI 1)),
                           Call(Var "fib", Prim("-", Var "n", CstI 2))),
                      CstI 1), Call(Var "fib", CstI 25)));;
+                     *)
                      

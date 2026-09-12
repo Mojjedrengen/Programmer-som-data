@@ -134,6 +134,13 @@ run (fromString "let werido n =
                         in (1 + werido 2) end");;
 ```
 
+```fsharp
+run (fromString "let werido n = 
+        if 10 < n then 0 else (werido (n+1)) + 
+                (let powerof e = if e < 1 then 1 else n * powerof (e-1) in powerof 8 end) 
+                        in (1 + werido 2) end");;
+```
+
 
 ```fsharp
 #q;;
