@@ -1,4 +1,24 @@
-#### Touched files: Parse.fs (3.6); Absyn.fs, ExprLex.fsl, ExprPar.fsy (3.7)
+### Edited files:
+
+#### 3.6
+
+- Expr/Parse.fs
+
+#### 3.7
+
+- Expr/Absyn.fs
+- Expr/ExprLex.fsl
+- Expr/ExprPar.fsy
+
+#### 4.3
+
+- Fun/Absyn.fs
+- Fun/Fun.fs
+
+#### 4.4
+
+- Fun/FunPar.fsy
+- Fun/Fun.fs
 
 ### 3.5:
 
@@ -138,8 +158,8 @@ end
 run e4;;
 ```
 
-
 ### 4.3
+
 To allow functions to take more than one argument, the abstract syntax in Absyn.fs has to be modified.
 This included modifications to both Letfun as well as Call to include lists of their corresponding args and parameters.
 
@@ -149,6 +169,7 @@ This meant the closure, holding the last of function parameters, had to be chang
 
 Furthermore, the cases in the eval interpreter of Letfun and Call had to be modified to ensure each parameter
 in the closure got assigned to its corresponding arg value.
+
 ```fsharp
 | Letfun of string * string * expr * expr    (* (f, x, fBody, letBody) *)
 | Call of expr * expr
@@ -163,9 +184,10 @@ in the closure got assigned to its corresponding arg value.
 
 For our newly changed abstract syntax and interpreter, the parser specification had to be changed accordingly.
 
-First we had to ensure that the Appexpr nonterminal could produce lists as the second value of Call. 
+First we had to ensure that the Appexpr nonterminal could produce lists as the second value of Call.
 This was done with the introduction of a new nonterminal and type of "Args" which was a
 list of expressions as follows:
+
 ```fsharp
 %type <Absyn.expr list> Args
 
@@ -173,6 +195,7 @@ Args:
     AtExpr                              { [$1]}
   | AtExpr Args                       { $1 :: $2}
 ```
+
 meaning an AppExpr could now create lists of N length via the recursion of Args.
 
 To further adopt our new abstract syntax and interpreter, we had to change the AtExpr Nonterminal as well.
@@ -189,6 +212,7 @@ Params:
    NAME                               {[$1]}
   | NAME Params                       {$1 :: $2}
 ```
+
 This was to allow a list of parameters in the form of strings as opposed to earlier where
 Letfun only allowed a single NAME instance. So to make this work, we made what was essentially a copy
 of the Args type/NonTerminal.
