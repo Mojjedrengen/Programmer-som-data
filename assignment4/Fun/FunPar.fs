@@ -574,10 +574,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 78 "FunPar.fsy"
+# 77 "FunPar.fsy"
                                                                CstI(_1)               
                    )
-# 78 "FunPar.fsy"
+# 77 "FunPar.fsy"
                  : Absyn.expr));
 # 582 "FunPar.fs"
         (fun (parseState : FSharp.Text.Parsing.IParseState) ->
@@ -585,10 +585,10 @@ let _fsyacc_reductions = lazy [|
             Microsoft.FSharp.Core.Operators.box
                 (
                    (
-# 79 "FunPar.fsy"
+# 78 "FunPar.fsy"
                                                                CstB(_1)               
                    )
-# 79 "FunPar.fsy"
+# 78 "FunPar.fsy"
                  : Absyn.expr));
 |]
 # 594 "FunPar.fs"
