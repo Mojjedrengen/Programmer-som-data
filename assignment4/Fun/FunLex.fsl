@@ -22,6 +22,8 @@ let commentDepth = ref 0;  (* Current comment nesting *)
 let keyword s =
     match s with
     | "else"  -> ELSE 
+    | "and"      -> AND
+    | "or"      -> OR
     | "end"   -> END
     | "false" -> CSTBOOL false
     | "if"    -> IF
@@ -45,6 +47,8 @@ rule Token = parse
   | '='             { EQ }
   | "<>"            { NE }
   | '>'             { GT }
+  | "&&"             { AND }
+  | "||"             { OR }
   | '<'             { LT }
   | ">="            { GE }
   | "<="            { LE }
