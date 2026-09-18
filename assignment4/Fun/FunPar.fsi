@@ -4,6 +4,8 @@ type token =
   | EOF
   | LPAR
   | RPAR
+  | AND
+  | OR
   | EQ
   | NE
   | GT
@@ -31,6 +33,8 @@ type tokenId =
     | TOKEN_EOF
     | TOKEN_LPAR
     | TOKEN_RPAR
+    | TOKEN_AND
+    | TOKEN_OR
     | TOKEN_EQ
     | TOKEN_NE
     | TOKEN_GT
