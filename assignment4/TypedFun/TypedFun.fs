@@ -51,6 +51,9 @@ type tyexpr =
   | Letfun of string * string * typ * tyexpr * typ * tyexpr
   | Emptylist of typ
   | Addtolist of tyexpr * tyexpr
+  | Head of tyexpr
+  | Tail of tyexpr
+  | IsEmpty of tyexpr
           (* (f,       x,       xTyp, fBody,  rTyp, letBody *)
   | Call of tyexpr * tyexpr
 
@@ -113,6 +116,27 @@ let rec typ (e : tyexpr) (env : typ env) : typ =
         else
           failwith "list type mismatch"      
       | _ -> failwith "not a list"
+    | IsEmpty e1 ->
+      let t1 = typ e1 env
+      match t1 with
+      | TypL _ ->
+          TypB
+      | _ ->
+          failwith "not a list"
+    | Head e1 ->
+      let t1 = typ e1 env
+      match t1 with
+      | TypL t ->
+          t
+      | _ ->
+        failwith "not a list"
+    | Tail e1 ->
+      let t1 = typ e1 env
+      match t1 with
+      | TypL _ ->
+          t1
+      | _ ->
+        failwith "not a list"
     | CstI i -> TypI
     | CstB b -> TypB
     | Var x  -> lookup env x 
