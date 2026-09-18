@@ -36,6 +36,7 @@ let rec lookup env x =
 type typ =
   | TypI                                (* int                         *)
   | TypB                                (* bool                        *)
+  | TypL of typ                         (* list, element type is typ   *)
   | TypF of typ * typ                   (* (argumenttype, resulttype)  *)
 
 (* New abstract syntax with explicit types, instead of Absyn.expr: *)
@@ -48,6 +49,8 @@ type tyexpr =
   | Prim of string * tyexpr * tyexpr
   | If of tyexpr * tyexpr * tyexpr
   | Letfun of string * string * typ * tyexpr * typ * tyexpr
+  | Emptylist of typ
+  | Addtolist of tyexpr * tyexpr
           (* (f,       x,       xTyp, fBody,  rTyp, letBody *)
   | Call of tyexpr * tyexpr
 
@@ -99,6 +102,17 @@ let rec eval (e : tyexpr) (env : value env) : int =
 
 let rec typ (e : tyexpr) (env : typ env) : typ =
     match e with
+    | Emptylist i -> TypL(i)
+    | Addtolist(e1, e2) ->
+      let t1 = typ e1 env
+      let t2 = typ e2 env
+      match t2 with
+      | TypL t ->
+        if t1 = t then
+          TypL(t)
+        else
+          failwith "list type mismatch"      
+      | _ -> failwith "not a list"
     | CstI i -> TypI
     | CstB b -> TypB
     | Var x  -> lookup env x 
@@ -146,6 +160,8 @@ let typeCheck e = typ e [];;
 
 let ex1 = Letfun("f1", "x", TypI, Prim("+", Var "x", CstI 1), TypI,
                  Call(Var "f1", CstI 12));;
+
+let testex = Addtolist(CstI 12, Emptylist TypI)
 
 (* Factorial *)
 
