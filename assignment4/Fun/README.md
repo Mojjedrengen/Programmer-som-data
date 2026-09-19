@@ -159,21 +159,22 @@ run (fromString @"let twice f = let g x = f(f(x)) in g end
 
 
 run (fromString @"let add x = let f y = x+y in f end
-in add 2 5 end")::
+in add 2 5 end");;
 
-run (fromString @"let add x = let f y = x+y in f end
+run (fromString @"
+let add x = let f y = x+y in f end
 in let addtwo = add 2
 in addtwo 5 end
-end")::
+end");;
 
 run (fromString @"let add x = let f y = x+y in f end
 in let addtwo = add 2
 in let x = 77 in addtwo 5 end
 end
-end")::
+end");;
 
 run (fromString @"let add x = let f y = x+y in f end
-in add 2 end")::
+in add 2 end");;
 ```
 ```fsharp
 #q;;
