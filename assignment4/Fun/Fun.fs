@@ -24,7 +24,7 @@ let rec lookup env x =
 
 type value = 
   | Int of int
-  | Closure of string * list<string> * expr * value env       (* (f, [x...], fBody, fDeclEnv) *)
+  | Closure of string * string * expr * value env       (* (f, [x...], fBody, fDeclEnv) *)
 
 let rec eval (e : expr) (env : value env) : int =
     match e with 
@@ -52,24 +52,16 @@ let rec eval (e : expr) (env : value env) : int =
       let b = eval e1 env
       if b<>0 then eval e2 env
       else eval e3 env
-    | Letfun(f, ls, fBody, letBody) -> 
-      let bodyEnv = (f, Closure(f, ls, fBody, env)) :: env
+    | Letfun(f, x, fBody, letBody) -> 
+      let bodyEnv = (f, Closure(f, x, fBody, env)) :: env 
       eval letBody bodyEnv
-    | Call(Var f, eArgls) -> 
+    | Call(Var f, eArg) -> 
       let fClosure = lookup env f
       match fClosure with
-      | Closure (f, paramlist, fBody, fDeclEnv) ->
-        let fBodyEnv =
-          let rec helper acc1 eargs paramls =
-            match eargs, paramls with
-            | [], [] -> acc1
-            | x :: restx, y :: resty ->
-              let xVal = Int(eval x env)
-              helper ((y, xVal) :: acc1) restx resty
-            | _ -> failwith "eval Call: arg and paramlist length mismatch"
-          helper [] eArgls paramlist
-        let fBodyEnv2 = fBodyEnv @ (f, fClosure) :: fDeclEnv
-        eval fBody fBodyEnv2
+      | Closure (f, x, fBody, fDeclEnv) ->
+        let xVal = Int(eval eArg env)
+        let fBodyEnv = (x, xVal) :: (f, fClosure) :: fDeclEnv
+        eval fBody fBodyEnv
       | _ -> failwith "eval Call: not a function"
     | Call _ -> failwith "eval Call: not first-order function"
 
