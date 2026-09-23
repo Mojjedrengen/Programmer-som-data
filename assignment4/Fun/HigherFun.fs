@@ -30,6 +30,7 @@ let rec lookup env x =
 type value = 
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
+  | Clos of string * expr * (string * value) list // 6.2 non rec Clos type 
 
 let rec eval (e : expr) (env : value env) : value =
     match e with
@@ -58,11 +59,14 @@ let rec eval (e : expr) (env : value env) : value =
     | Letfun(f, x, fBody, letBody) -> 
       let bodyEnv = (f, Closure(f, x, fBody, env)) :: env
       eval letBody bodyEnv
+    | Fun(s, ex) -> Clos(s,ex,env) // 6.2 evaluation of anonymous functions in a non-recursive closure of the form
     | Call(eFun, eArg) -> 
       let fClosure = eval eFun env  (* Different from Fun.fs - to enable first class functions *)
+      let xVal = eval eArg env
       match fClosure with
+      | Clos(s,ex, aFDeclEnv) ->
+        eval ex ((s,xVal) :: aFDeclEnv) 
       | Closure (f, x, fBody, fDeclEnv) ->
-        let xVal = eval eArg env
         let fBodyEnv = (x, xVal) :: (f, fClosure) :: fDeclEnv
         in eval fBody fBodyEnv
       | _ -> failwith "eval Call: not a function";;

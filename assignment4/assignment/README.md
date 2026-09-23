@@ -47,3 +47,11 @@ in add 2 end
 
 The fourth program returns a closure as the result.
 This is due to add 2 calling and with x = 2 and then the body of add runs defining and returning f, so nothing calls f afterwards.
+
+
+
+### 6.2
+
+
+
+### 6.3

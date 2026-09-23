@@ -30,6 +30,7 @@ let keyword s =
     | "not"   -> NOT
     | "then"  -> THEN
     | "true"  -> CSTBOOL true
+    | "fun"   -> FUN
     | _       -> NAME s
 }
 
@@ -58,6 +59,7 @@ rule Token = parse
   | "&&"            { AND }
   | "||"            { OR }
   | eof             { EOF }
+  | "->"            { ARROW }
   | _               { failwith "Lexer error: illegal symbol" }
 
 and SkipComment = parse
