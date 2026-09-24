@@ -6,7 +6,7 @@
 
  open Absyn;
 %}
-%token FUN ARROW
+
 %token <int> CSTINT
 %token <string> NAME
 %token <bool> CSTBOOL
@@ -17,6 +17,7 @@
 %token AND OR
 %token LPAR RPAR 
 %token EOF
+%token FUN ARROW
 
 %left ELSE              /* lowest precedence  */
 %left AND OR

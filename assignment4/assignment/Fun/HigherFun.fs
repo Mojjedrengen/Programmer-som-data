@@ -30,7 +30,7 @@ let rec lookup env x =
 type value = 
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
-  | Clos of string * expr * (string * value) list // 6.2 non rec Clos type 
+  | Clos of string * expr * value env // 6.2 new closure type supporting anonymous functions.
 
 let rec eval (e : expr) (env : value env) : value =
     match e with
