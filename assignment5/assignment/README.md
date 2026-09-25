@@ -1,6 +1,30 @@
 ### Exercise 6.4
 
-### Exercise 6.5
+#### (i)
+
+type rule tree for the following:
+
+```fsharp
+let f x = 1
+in f f end
+```
+
+![proof tree](IMG_9708.jpg)
+
+f is used as two different types in f f, both the function being called and as the argument.
+
+#### (ii)
+type rule tree for the following:
+
+```fsharp
+let f x = if x<10 then 42 else f(x+1)
+in f 20 end
+```
+
+![proof tree2](IMG_9710.jpg)
+
+f should not be polymorphic, because the function body forces both input and output to be of a certain type (int in this case)
+so it does not become generalized.
 
 ### Exercise 7.1
 
