@@ -28,6 +28,8 @@ so it does not become generalized.
 
 # Exercise 6.5
 
+#### (1)
+
 ``` fsharp
 inferType (fromString "let f x = 1
 in f f end");;
@@ -67,6 +69,45 @@ in f true end");;
 ```
 has type bool
 
+#### (2)
+
+• bool -> bool
+```fsharp
+inferType (fromString "let f x = if x then true else false
+in f end");;
+
+• int -> int
+```fsharp
+inferType (fromString "let f x = if true then x else 2
+in f end");;
+```
+• int -> int -> int
+```fsharp
+inferType (fromString "let f x = let g y = x + y in g end
+in f end");;
+```
+• ’a -> ’b -> ’a
+```fsharp
+inferType (fromString "let f x = let g y = x in g end
+in f end");;
+```
+• ’a -> ’b -> ’b
+```fsharp
+inferType (fromString "let f x = let g y = y in g end
+in f end");;
+```
+• (’a -> ’b) -> (’b -> ’c) -> (’a -> ’c)
+```fsharp
+inferType (fromString "let first f = let second g = let third x = g(f x) in third end in second end in first end");;
+```
+• ’a -> ’b
+```fsharp
+inferType (fromString "let f x = f(x) in f end");;
+```
+• ’a
+```fsharp
+inferType (fromString "let f x = f(x) in f(f) end");;
+```
 
 # Exercise 7.1
 
