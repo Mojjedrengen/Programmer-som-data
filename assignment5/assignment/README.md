@@ -23,7 +23,7 @@ in f 20 end
 
 ![proof tree2](IMG_9710.jpg)
 
-f should not be polymorphic, because the function body forces both input and output to be of a certain type (int in this case)
+f should not be polymorphic, because the function body forces both input and output to be of a certain type (int in this case).
 so it does not become generalized.
 
 ### Exercise 7.1
