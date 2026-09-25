@@ -28,6 +28,46 @@ so it does not become generalized.
 
 # Exercise 6.5
 
+``` fsharp
+inferType (fromString "let f x = 1
+in f f end");;
+```
+has type int
+
+```fsharp
+inferType (fromString "let f g = g g
+in f end");;
+```
+not typable due to circularity, which would require an infinite type.
+loop loop loop zoom zoom zoom
+
+```fsharp
+inferType (fromString "let f x =
+let g y = y
+in g false end
+in f 42 end");;
+```
+has type bool
+
+```fsharp
+inferType (fromString "let f x =
+let g y = if true then y else x
+in g false end
+in f 42 end");;
+```
+not typable due to the two branches of the if statement needing to have the same type, but here
+x is used as an int in f 42 and y is used as a bool in g false, conflict alert
+
+
+```fsharp
+inferType (fromString "let f x =
+let g y = if true then y else x
+in g false end
+in f true end");;
+```
+has type bool
+
+
 # Exercise 7.1
 
 I have created the Lex and parser files. And have test run the programs

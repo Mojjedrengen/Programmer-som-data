@@ -29,6 +29,8 @@ type token =
   | CSTBOOL of (bool)
   | NAME of (string)
   | CSTINT of (int)
+  | FUN
+  | ARROW
 type tokenId = 
     | TOKEN_EOF
     | TOKEN_LPAR
@@ -58,6 +60,8 @@ type tokenId =
     | TOKEN_CSTBOOL
     | TOKEN_NAME
     | TOKEN_CSTINT
+    | TOKEN_FUN
+    | TOKEN_ARROW
     | TOKEN_end_of_input
     | TOKEN_error
 type nonTerminalId = 
