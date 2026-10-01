@@ -50,6 +50,8 @@ rule Token = parse
   | ['0'-'9']+      { CSTINT (System.Int32.Parse (lexemeAsString lexbuf)) }  
   | ['a'-'z''A'-'Z']['a'-'z''A'-'Z''0'-'9']*
                     { keyword (lexemeAsString lexbuf) }
+  | "++"            { INC }
+  | "--"            { DEC }
   | '+'             { PLUS } 
   | '-'             { MINUS } 
   | '*'             { TIMES } 
