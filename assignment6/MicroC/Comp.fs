@@ -211,7 +211,7 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
     | Call(f, es) -> callfun f es varEnv funEnv
     | PreDec acc ->
       let res = cAccess acc varEnv funEnv
-      res @ [DUP; LDI; CSTI -1; ADD; STI]
+      res @ [DUP; LDI; CSTI 1; SUB; STI]
     | PreInc acc ->
       let res = cAccess acc varEnv funEnv
       res @ [DUP; LDI; CSTI 1; ADD; STI]
