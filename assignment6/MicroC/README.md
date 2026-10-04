@@ -41,9 +41,7 @@ described below.
 ### Load the lexer, parser, and interpreter in F# Interactive
 
 ```text
-dotnet fsi -r bin/Debug/net10.0/FsLexYacc.Runtime.dll \
-    Absyn.fs CPar.fs CLex.fs Parse.fs \
-    Interp.fs ParseAndRun.fs
+dotnet fsi -r bin/Debug/net10.0/FsLexYacc.Runtime.dll Absyn.fs CPar.fs CLex.fs Parse.fs Interp.fs ParseAndRun.fs
 ```
 
 Then execute:
