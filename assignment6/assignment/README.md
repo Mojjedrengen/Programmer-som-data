@@ -146,6 +146,67 @@ this example is what the micro c program shows as while (i < n)
 
 The rest of the execution follows the pattern as described above
 
+# Exercise 8.3
+Implemented by retrieving current instruction list and storing it in 
+```fsharp
+let res = cAccess acc varEnv funEnv
+```
+where we add further instructions to list by 
+```fsharp
+res @ [DUP; LDI; CSTI 1; SUB; STI]
+```
+So when the instructions in res have been runned through it duplicates remaining memory address. so we have
+```powershell
+bot  <------------------------>      top
+mem adress ; 
+After DUP
+mem address ; mem address ;
+```
+LDI extract the value found within that memory adress. So now we have
+```powershell
+mem adress ; value from mem adress; 
+```
+CSTI 1 adds value 1 to the stack
+```powershell
+mem adress ; value from mem adress; 1
+```
+Add/subtract adds or subtract the two value on top of the stack to/from eachother
+```powershell
+mem adress ; value from mem adress; 1 ; SUB
+
+When processed
+mem adress ; (value from mem adress-1)
+```
+STI takes two value on top of stack and put this value here 
+```powershell
+mem adress ; coolvalue ; sti
+
+STI then stores coolvalue inside of memadress and places it on the stack
+```
+Then added
+```powershell
+| "++"            { DEC }
+| "--"            { INC }
+to token rules in CLex.fsl
+
+  | DEC
+  | INC
+  to token type 
+  and 
+    | TOKEN_DEC
+    | TOKEN_INC>
+    
+    to token id 
+    
+    in CPar.fsi
+    
+    and defined 
+    
+    %token DEC INC
+    in the top of CPar.fsy
+```
+
+
 
 # Exercise 8.4
 
