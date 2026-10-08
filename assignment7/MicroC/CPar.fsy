@@ -20,8 +20,10 @@ let nl = CstI 10
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
+%token CON1 CON2
 
-%right ASSIGN             /* lowest precedence */
+%right ASSIGN          /* lowest precedence */
+%right CON1 CON2           
 %nonassoc PRINT
 %left SEQOR
 %left SEQAND
@@ -133,6 +135,7 @@ ExprNotAccess:
   | Expr LE    Expr                     { Prim2("<=", $1, $3)  }
   | Expr SEQAND Expr                    { Andalso($1, $3)      }
   | Expr SEQOR  Expr                    { Orelse($1, $3)       }
+  | Expr CON1 Expr CON2 Expr            { Cond($1, $3, $5)     }
 ;
 
 AtExprNotAccess:
