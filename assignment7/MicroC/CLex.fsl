@@ -26,6 +26,7 @@ let keyword s =
     | "println" -> PRINTLN
     | "return"  -> RETURN
     | "true"    -> CSTBOOL 1
+    | "switch"  -> SWITCH
     | "void"    -> VOID 
     | "while"   -> WHILE         
     | _         -> NAME s
@@ -74,6 +75,8 @@ rule Token = parse
   | ']'             { RBRACK }
   | ';'             { SEMI }
   | ','             { COMMA }
+  | '?'             { CON1 }
+  | ':'             { CON2 }
   | "//"            { EndLineComment lexbuf; Token lexbuf }
   | "/*"            { Comment lexbuf; Token lexbuf }
   | '"'             { CSTSTRING (String [] lexbuf) }

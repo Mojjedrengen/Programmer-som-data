@@ -147,6 +147,18 @@ let rec cStmt stmt (varEnv : varEnv) (funEnv : funEnv) : instr list =
       [RET (snd varEnv - 1)]
     | Return (Some e) -> 
       cExpr e varEnv funEnv @ [RET (snd varEnv)]
+    | Switch (e1, ls) ->
+      let case = cExpr e1 varEnv funEnv
+      let labelend = newLabel()
+      let rec helper (ls' : list<int * stmt>) =
+        match ls' with
+        | [] -> []
+        | (n, blk) :: rest ->
+          let label1 = newLabel()
+          [DUP] @ [CSTI n] @ [EQ] @ [IFZERO label1] @ cStmt blk varEnv funEnv @ [GOTO labelend] @ [Label label1] @ helper rest
+
+      let append = helper ls 
+      case @ append @ [Label labelend] @ [INCSP -1]
 
 and cStmtOrDec stmtOrDec (varEnv : varEnv) (funEnv : funEnv) : varEnv * instr list = 
     match stmtOrDec with 
@@ -209,6 +221,17 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
       @ cExpr e2 varEnv funEnv
       @ [GOTO labend; Label labtrue; CSTI 1; Label labend]
     | Call(f, es) -> callfun f es varEnv funEnv
+    | Cond(e1, e2, e3) ->
+      let labelfalse = newLabel()
+      let labeltrue = newLabel()
+      cExpr e1 varEnv funEnv
+      @ [IFZERO labelfalse]
+      @ cExpr e2 varEnv funEnv
+      @ [GOTO labeltrue]
+      @ [Label labelfalse]
+      @ cExpr e3 varEnv funEnv
+      @ [Label labeltrue]
+
 
 (* Generate code to access variable, dereference pointer or index array.
    The effect of the compiled code is to leave an lvalue on the stack.   *)

@@ -20,8 +20,11 @@ let nl = CstI 10
 %token NOT SEQOR SEQAND
 %token LPAR RPAR LBRACE RBRACE LBRACK RBRACK SEMI COMMA ASSIGN AMP
 %token EOF
+%token CON1 CON2
+%token SWITCH
 
-%right ASSIGN             /* lowest precedence */
+%right ASSIGN          /* lowest precedence */
+%right CON1 CON2
 %nonassoc PRINT
 %left SEQOR
 %left SEQAND
@@ -100,6 +103,7 @@ StmtM:  /* No unbalanced if-else */
   | Block                               { $1                   }
   | IF LPAR Expr RPAR StmtM ELSE StmtM  { If($3, $5, $7)       }
   | WHILE LPAR Expr RPAR StmtM          { While($3, $5)        }
+  | SWITCH LPAR Expr RPAR InStms        { Switch($3, $5)       }
 ;
 
 StmtU:
@@ -133,6 +137,7 @@ ExprNotAccess:
   | Expr LE    Expr                     { Prim2("<=", $1, $3)  }
   | Expr SEQAND Expr                    { Andalso($1, $3)      }
   | Expr SEQOR  Expr                    { Orelse($1, $3)       }
+  | Expr CON1 Expr CON2 Expr            { Cond($1, $3, $5)     }
 ;
 
 AtExprNotAccess:
@@ -147,6 +152,16 @@ Access:
   | TIMES Access                        { AccDeref (Access $2)}
   | TIMES AtExprNotAccess               { AccDeref $2         }
   | Access LBRACK Expr RBRACK           { AccIndex($1, $3)    }   
+;
+
+InStms:
+    /* empty */                         { []       }
+  | InStms1                             { $1       }
+;
+
+InStms1:
+    CSTINT COMMA Block                           { [$1,$3] }
+  | CSTINT COMMA Block COMMA InStms1             { ($1,$3) :: $5 }
 ;
 
 Exprs:
