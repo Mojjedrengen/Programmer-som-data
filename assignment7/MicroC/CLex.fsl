@@ -26,6 +26,7 @@ let keyword s =
     | "println" -> PRINTLN
     | "return"  -> RETURN
     | "true"    -> CSTBOOL 1
+    | "switch"  -> SWITCH
     | "void"    -> VOID 
     | "while"   -> WHILE         
     | _         -> NAME s

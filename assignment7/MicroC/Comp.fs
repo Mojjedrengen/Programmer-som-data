@@ -147,6 +147,18 @@ let rec cStmt stmt (varEnv : varEnv) (funEnv : funEnv) : instr list =
       [RET (snd varEnv - 1)]
     | Return (Some e) -> 
       cExpr e varEnv funEnv @ [RET (snd varEnv)]
+    | Switch (e1, ls) ->
+      let case = cExpr e1 varEnv funEnv
+      let labelend = newLabel()
+      let rec helper (ls' : list<int * stmt>) =
+        match ls' with
+        | [] -> []
+        | (n, blk) :: rest ->
+          let label1 = newLabel()
+          [DUP] @ [CSTI n] @ [EQ] @ [IFZERO label1] @ cStmt blk varEnv funEnv @ [GOTO labelend] @ [Label label1] @ helper rest
+
+      let append = helper ls 
+      case @ append @ [Label labelend] @ [INCSP -1]
 
 and cStmtOrDec stmtOrDec (varEnv : varEnv) (funEnv : funEnv) : varEnv * instr list = 
     match stmtOrDec with 
