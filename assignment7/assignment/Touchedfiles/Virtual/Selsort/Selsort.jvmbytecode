@@ -1,0 +1,54 @@
+Classfile /Users/mariuslarsen/RiderProjects/Programmer-som-data/assignment7/Virtual/Selsort/Selsort.class
+  Last modified 22. okt. 2026; size 1347 bytes
+  SHA-256 checksum 5b98357f785ebcd8d2d1ba6165c69bb4cfd6ddc3260c5de5a2fb9ecc477716d8
+  Compiled from "Selsort.java"
+
+  public static void SelectionSort(int[]);
+    descriptor: ([I)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: iconst_0 // Push const 0 onto stack
+         1: istore_1 // Pop and store const 0 in "Int var 1" - in i 
+         2: iload_1 // Push value of i-; load i -onto stack
+         3: aload_0 // Load "array var 0" onto stack
+         4: arraylength // Load arr.length onto stack. Pop arr, call length on it, push value onto stack
+         5: if_icmpge     57 // Pops two top ints, being i and arr.length, compares them. If i >= arr.length then "branch/jump to 57" else ->
+         8: iload_1 // load i
+         9: istore_2 // pop value, store value in int var 2; least = i
+        10: iload_1 // load i
+        11: iconst_1 // push const 1 onto stack
+        12: iadd // (val i) 1 add
+        13: istore_3 // store i+1 into intvar 3, being j. So j=i+1
+        14: iload_3 // load j
+        15: aload_0 // load arr
+        16: arraylength // get arr.length
+        17: if_icmpge     37 // same as step 5; if j>=arr.Length then "Jump to 37" else ->
+        20: aload_0 // load arr
+        21: iload_3 // load j
+        22: iaload // loads index j of arr ; arr[j]
+        23: aload_0 // loads arr
+        24: iload_2 // loads least
+        25: iaload // arr[least]
+        26: if_icmpge     31 // as 5: if arr[j]>=arr[least] then jump_31 else ->
+        29: iload_3 // load j
+        30: istore_2 // least = j
+        31: iinc          3, 1 // increment local var 3 ( j ) with 1
+        34: goto          14 // jump to 14 (new loop)
+        37: aload_0 // load arr
+        38: iload_1 // load i
+        39: iaload // load arr[i] 
+        40: istore_3 // tmp = arr[i] ; Okay so apparently j has been freed due to lack of its use outside of its forloop :) Therefore the new var 3 is tmp.
+        41: aload_0 // load arr
+        42: iload_1 // load i
+        43: aload_0 // load arr
+        44: iload_2 // load least
+        45: iaload // load value arr[least]
+        46: iastore // store value in arr[i] ; arr[i] = arr[least]
+        47: aload_0 // load arr
+        48: iload_2 // load least
+        49: iload_3 // load tmp 
+        50: iastore // arr[least] = tmp 
+        51: iinc          1, 1 // increment var 1 = i with 1, i = i+1
+        54: goto          2 // goto jump branch whatever to step 2
+        57: return // return; END of function, no mas
