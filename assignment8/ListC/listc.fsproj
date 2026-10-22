@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- FsLexYacc runtime via NuGet -->    
+    <PackageReference Include="FsLexYacc" Version="11.3.0" PrivateAssets="all" />
+    <PackageReference Include="FsLexYacc.Runtime" Version="11.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Absyn.fs" />
+    <Compile Include="CPar.fs" />
+    <Compile Include="CLex.fs" />
+    <Compile Include="Parse.fs" />
+    <Compile Include="Machine.fs" />
+    <Compile Include="Comp.fs" />
+    <Compile Include="ListCC.fs" />    
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Source generators -->
+    <FsYacc Include="CPar.fsy">
+      <OtherFlags>--module CPar</OtherFlags>
+    </FsYacc>
+
+    <FsLex Include="CLex.fsl">
+      <OtherFlags>--unicode</OtherFlags>
+    </FsLex>
+  </ItemGroup>
+</Project>
