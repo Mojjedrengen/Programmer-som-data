@@ -618,7 +618,8 @@ void initheap() {
 // INIT what have been made:
 void mark(word *block) {
   word length = Length(*block);
-  Paint(*block, Black);
+  word color = Paint(*block, Black);
+  block[0] = color; 
   for (word i = 1; i < length; i++) {
     word v = block[i];
     if (v != NILVALUE && !IsInt(v))
@@ -636,15 +637,13 @@ void mark(word *block) {
 void markPhase(word s[], word sp) {
   if (!silent)
     printf("GC[");
-  if (!silent)
-    printf("M");
   for (word i = 0; i <= sp; i++) {
     word sw = s[i];
-    if (sw == NILVALUE)
-      continue;
-    if (!IsInt(sw))
-      mark(&heap[sw]);
+    if (sw != NILVALUE && !IsInt(sw))
+      mark((word *)sw);
   }
+  if (!silent)
+    printf("M");
 }
 
 // NOTE: Does it work ?
@@ -652,19 +651,41 @@ void markPhase(word s[], word sp) {
 void sweepPhase() {
   if (!silent)
     printf(",");
+  // freelist
+  word *sweep = heap;
+  freelist = 0;
+  word *free = 0;
+  while (sweep < afterHeap) {
+    word length = Length(*sweep);
+    if (Color(*sweep) == Black)
+      sweep[0] = Paint(*sweep, White);
+    else {
+      word tag = BlockTag(*sweep); 
+      sweep[0] = mkheader(tag, length, Blue);
+      if (length > 0) {
+        if (freelist != 0)
+          free[1]  = (word) sweep;
+        else 
+          freelist = sweep;
+        free = sweep;
+      }
+    }
+    sweep += length + 1;
+  }
+  free[1] = 0;
+
+  //for (word i = 0; i < HEAPSIZE;) {
+  //  word hdr = heap[i];
+  //  word l = Length(hdr);
+  //  if (Color(hdr) == White) {
+  //    heap[i] = Paint(hdr, Blue);
+  //  }
+  //  if (Color(hdr) == Black)
+  //    heap[i] = Paint(hdr, White);
+  //  i += l;
+  //}
   if (!silent)
     printf("BS]");
-  // freelist
-  for (word i = 0; i < HEAPSIZE;) {
-    word hdr = heap[i];
-    word l = Length(hdr);
-    if (Color(hdr) == White) {
-      heap[i] = Paint(hdr, Blue);
-    }
-    if (Color(hdr) == Black)
-      heap[i] = Paint(hdr, White);
-    i += l;
-  }
 }
 // DONE
 
